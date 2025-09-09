@@ -1,12 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benvenuti</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz sui Film</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+    }
+
+    .question-container {
+      margin-bottom: 30px;
+      display: none;
+    }
+
+    .question-container.active {
+      display: block;
+    }
+
+    h2 {
+      color: #ffcc00;
+    }
+
+    button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+
+    button:hover {
+      background-color: #666;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: #00ff00;
+    }
+
+    .wrong {
+      color: #ff4444;
+    }
+  </style>
 </head>
 <body>
-    <h1>Ciao, mondo!</h1>
-    <p>Benvenuti nel nostro sito ospitato su GitHub Pages.</p>
+
+  <h1>🎬 Quiz sui Film</h1>
+
+  <!-- DOMANDA 1 -->
+  <div id="q1" class="question-container active">
+    <h2>1. Qual è il regista di "Inception"?</h2>
+    <button onclick="checkAnswer(this, 'q1', true)">Christopher Nolan</button>
+    <button onclick="checkAnswer(this, 'q1', false)">James Cameron</button>
+    <button onclick="checkAnswer(this, 'q1', false)">Steven Spielberg</button>
+    <div class="feedback" id="q1-feedback"></div>
+  </div>
+
+  <!-- DOMANDA 2 -->
+  <div id="q2" class="question-container">
+    <h2>2. In che anno è uscito "Il Padrino"?</h2>
+    <button onclick="checkAnswer(this, 'q2', false)">1969</button>
+    <button onclick="checkAnswer(this, 'q2', true)">1972</button>
+    <button onclick="checkAnswer(this, 'q2', false)">1980</button>
+    <div class="feedback" id="q2-feedback"></div>
+  </div>
+
+  <!-- DOMANDA 3 -->
+  <div id="q3" class="question-container">
+    <h2>3. Chi interpreta il protagonista in "Matrix"?</h2>
+    <button onclick="checkAnswer(this, 'q3', true)">Keanu Reeves</button>
+    <button onclick="checkAnswer(this, 'q3', false)">Tom Cruise</button>
+    <button onclick="checkAnswer(this, 'q3', false)">Brad Pitt</button>
+    <div class="feedback" id="q3-feedback"></div>
+  </div>
+
+  <!-- DOMANDA 4 -->
+  <div id="q4" class="question-container">
+    <h2>4. Quale di questi film ha vinto il premio Oscar per il miglior film nel 2020?</h2>
+    <button onclick="checkAnswer(this, 'q4', true)">Parasite</button>
+    <button onclick="checkAnswer(this, 'q4', false)">1917</button>
+    <button onclick="checkAnswer(this, 'q4', false)">Joker</button>
+    <div class="feedback" id="q4-feedback"></div>
+  </div>
+
+  <!-- FINE -->
+  <div id="end" class="question-container">
+    <h2>🎉 Complimenti!</h2>
+    <p>Hai risposto correttamente a tutte le domande!</p>
+  </div>
+
+  <script>
+    function checkAnswer(button, questionId, isCorrect) {
+      const feedback = document.getElementById(`${questionId}-feedback`);
+      const container = document.getElementById(questionId);
+
+      if (isCorrect) {
+        feedback.textContent = "✅ Corretto!";
+        feedback.className = "feedback correct";
+        // Vai alla prossima domanda
+        const nextId = getNextQuestionId(questionId);
+        if (nextId) {
+          setTimeout(() => {
+            container.classList.remove("active");
+            document.getElementById(nextId).classList.add("active");
+          }, 1000);
+        }
+      } else {
+        feedback.textContent = "❌ Sbagliato. Riprova!";
+        feedback.className = "feedback wrong";
+      }
+    }
+
+    function getNextQuestionId(currentId) {
+      const order = ["q1", "q2", "q3", "q4", "end"];
+      const index = order.indexOf(currentId);
+      return order[index + 1] || null;
+    }
+  </script>
+
 </body>
 </html>
